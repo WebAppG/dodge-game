@@ -1,0 +1,6 @@
+
+
+gemini second generation
+
+added code to handle mobile phone browser, without buttons
+

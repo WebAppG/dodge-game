@@ -1,0 +1,6 @@
+
+
+gemini third generation
+
+added code to handle mobile phone browser, added buttons
+
