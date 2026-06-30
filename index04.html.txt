@@ -1,0 +1,27 @@
+
+
+prompt:
+
+please add settings to this one-page webapp game so that there are easy, medium, hard levels.  the default is easy level.  in easy level, the objects do not drop fast and as the player progress, the speed of the dropping objects do not increase quickly, but only little by little.  in medium level, the speed of the dropping objects speed up slightly more quickly than in the easy level.  in the hard level, the current speed and speed increase is sufficient.
+
+------------------------------------
+
+
+response:
+
+Here is the complete, updated code. I have added a difficulty selector to the main menu and tweaked the game logic to support Easy, Medium, and Hard modes based on your requirements.
+
+What Changed:
+Difficulty Selector: Added radio buttons on the start screen styled to match the neon aesthetic.
+
+Easy (Default): Enemies fall slower, and the speed multiplier barely increases as your score goes up. The spawn rate is also more forgiving.
+
+Medium: A balanced mode where speed and spawn rates increase moderately.
+
+Hard: Uses the exact speed and scaling values from your original code.
+
+You can copy and paste this entirely over your current index03.html file:
+
+
+
+
