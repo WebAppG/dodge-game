@@ -1,0 +1,25 @@
+
+
+
+prompt:
+
+The swipe zone can be slightly smaller so that all can fit in a smaller screen of 375x667 and the spaces on top and bottom of the swipe zone can also be smaller.
+
+------------------------------------
+
+response:
+
+That makes perfect sense. On screens like an iPhone SE or standard smaller displays (375x667), browser toolbars and address bars eat into your available vertical space, so trimming the fat off those margins and shrinking the swipe zone is the best way to prevent the screen from scrolling while playing.
+
+I have updated the layout with a more compact footprint:
+
+Shrunk the Swipe Zone: Reduced its height from 80px to 55px. It is still thick enough for comfortable thumb tracking but takes up much less space.
+
+Tightened Margins: Reduced the spacing above and below the swipe zone and the buttons so everything packs nicely together.
+
+Responsive UI Text: Slightly reduced the score font size on mobile to save a few extra pixels at the top.
+
+Here is the updated, fully compact version. Copy and paste this over your current file:
+
+------------------------------------
+

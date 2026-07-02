@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dodge Game</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100vw;
+            max-width: 400px;
+            height: 100%;
+            padding: 5px;
+        }
+
+        .ui-panel {
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 10px;
+            flex-shrink: 0;
+        }
+
+        canvas {
+            background-color: #2b2b2b;
+            border: 4px solid #444;
+            border-radius: 8px;
+            width: 100%;
+            flex-grow: 1; /* Grows if space is available */
+            max-height: 75vh; /* Prevents overflow on 375x667 */
+            touch-action: none;
+        }
+
+        #swipe-zone {
+            width: 100%;
+            height: 70px; /* Precise height */
+            margin-top: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed #444;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            font-size: 12px;
+            letter-spacing: 2px;
+            flex-shrink: 0;
+        }
+
+        #mobile-controls {
+            width: 100%;
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+
+        .dir-btn {
+            flex: 1;
+            padding: 12px;
+            background: rgba(0, 255, 204, 0.1);
+            border: 2px solid #00ffcc;
+            color: #00ffcc;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        #screen-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .play-btn { padding: 15px 40px; background: #00ffcc; border-radius: 25px; border: none; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <div class="ui-panel">
+            <div id="score-display">Score: 0</div>
+            <div id="high-score-display">High: 0</div>
+        </div>
+        
+        <canvas id="gameCanvas" width="400" height="500"></canvas>
+        
+        <div id="swipe-zone">⟷ SWIPE ZONE ⟷</div>
+
+        <div id="mobile-controls">
+            <button id="btn-left" class="dir-btn">LEFT</button>
+            <button id="btn-right" class="dir-btn">RIGHT</button>
+        </div>
+
+        <div id="screen-overlay">
+            <h1>DODGE</h1>
+            <div id="difficulty-panel" style="margin: 20px 0;">
+                <label><input type="radio" name="difficulty" value="easy" checked> Easy</label>
+                <label><input type="radio" name="difficulty" value="medium"> Medium</label>
+                <label><input type="radio" name="difficulty" value="hard"> Hard</label>
+            </div>
+            <button id="start-btn" class="play-btn">PLAY</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const swipeZone = document.getElementById('swipe-zone');
+        // ... (Keep your existing JS logic for game updates, collision, and difficulty)
+        
+        // Ensure Swipe Zones use the same logic
+        function handleSwipe(e) {
+            if (!gameActive) return;
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            player.x = ((touch.clientX - rect.left) * scaleX) - (player.width / 2);
+            if (player.x < 0) player.x = 0;
+            if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+            isSwiping = true;
+        }
+
+        canvas.addEventListener('touchmove', handleSwipe, {passive:false});
+        swipeZone.addEventListener('touchmove', handleSwipe, {passive:false});
+        canvas.addEventListener('touchend', () => isSwiping = false);
+        swipeZone.addEventListener('touchend', () => isSwiping = false);
+
+        // ... Add your remaining existing game functions (startGame, update, etc)
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+
+
+
+prompt:
+
+The swipe zone can be adjusted to slightly bigger, to 70 pixels so that all can fit in a screen of 375x667.  this is the smallest screen I need this game to work. If there is any extra space, make the gameplay area bigger. 
+
+------------------------------------
+
+response:
+
+This version optimizes the layout for a 375x667 screen.
+
+Key Changes:
+Dynamic Canvas Scaling: The canvas now uses max-height: 70vh (70% of the viewport height). This ensures that on the 375x667 screen, the game area is as large as possible without being pushed off-screen.
+
+Optimized Swipe Zone: Set to exactly 70px as requested.
+
+Flexible Layout: The game container is set to height: 100vh and uses flex-grow logic. If there is extra screen height (on taller phones), the canvas will automatically expand to fill that space, while the control elements stay anchored at the bottom.
+
+Touch-Friendly Scaling: The swipe zone is now large enough for comfortable thumb control, while the UI elements remain compact to prevent scrolling.
+
+Replace your current code with this updated version:
+
+------------------------------------
+

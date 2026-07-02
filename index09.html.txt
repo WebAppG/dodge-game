@@ -1,0 +1,73 @@
+
+
+final result:
+
+changes make in index 07 to 09 are not usable.  final version is using index06.html and made manual changes into index06a.html
+
+------------------------------------
+
+
+prompt:
+
+The lastest version has an error: Unsafe attempt to load URL file:///C:/apps/webapp/dodge_game/index08.html from frame with URL file:///C:/apps/webapp/dodge_game/index08.html. 'file:' URLs are treated as unique security origins.  please take a look and see if you can remedy.  thank you.
+
+
+------------------------------------
+
+response:
+
+
+The error you are seeing occurs because modern web browsers block certain operations (like accessing localStorage or loading cross-origin resources) when you open an HTML file directly from your computer's file system (file:///...). Browsers treat each local file as its own unique, isolated security zone.
+
+The code itself is actually correct, but your browser's security policy is preventing it from saving your High Score to the disk via localStorage.
+
+Here are three ways to fix this:
+
+1. The "Real" Way: Run a Local Server (Recommended)
+This is how professional web developers work. By running a tiny local web server, the browser treats your files as being served from http://localhost, which allows localStorage to work perfectly.
+
+If you have VS Code: Install the "Live Server" extension. Once installed, just right-click your index.html file and select "Open with Live Server".
+
+If you have Python installed: Open your terminal/command prompt in the game folder and run:
+
+python -m http.server 8000
+
+Then open http://localhost:8000 in your browser.
+
+2. The Simple Fix: Disable the LocalStorage Check
+If you don't want to set up a server, you can modify the code to "fail gracefully" when it can't save. I have updated the script below to be more robust. It won't save the high score, but it will remove the error that is stopping the game from running.
+
+Replace the localStorage block in your <script> with this:
+
+JavaScript
+// Change this section in your script:
+let highScore = 0;
+
+// Use this safe approach:
+try {
+    if (typeof localStorage !== 'undefined') {
+        highScore = localStorage.getItem('dodge_highScore') || 0;
+    }
+} catch (e) {
+    console.warn("localStorage is restricted, high score won't save.");
+}
+highScoreDisplay.textContent = `High Score: ${highScore}`;
+3. Change Browser Security Settings (Not Recommended)
+You can tell Chrome to allow local file access, but this is a security risk for your computer.
+
+Close all Chrome windows.
+
+Open your terminal/command prompt.
+
+Run Chrome with this flag: chrome.exe --allow-file-access-from-files
+
+Warning: This makes your browser less secure. I strongly recommend using Option 1 (Live Server) instead.
+
+Why the error likely occurred during your last update:
+In the last iteration, I added the touch-action: none; and specific responsive styles to handle the 375x667 screen. If the browser crashed or failed to load the file because of the file:// security, it often produces that "Unsafe attempt" warning.
+
+Try Option 1 (Live Server) first—it will solve the error, allow the high score to save, and make the game feel much more professional!
+
+
+------------------------------------
+

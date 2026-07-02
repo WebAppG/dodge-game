@@ -21,7 +21,7 @@
             justify-content: center;
             min-height: 100vh;
             overflow: hidden;
-            touch-action: none;
+            touch-action: none; /* Prevents mobile browser pull-to-refresh and zooming */
         }
 
         #game-container {
@@ -32,27 +32,29 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 5px;
         }
 
         .ui-panel {
-            margin-bottom: 10px;
-            font-size: 20px;
+            margin-bottom: 5px;
+            font-size: 18px;
             font-weight: bold;
             display: flex;
             justify-content: space-between;
             width: 100%;
-            padding: 0 15px;
+            padding: 0 10px;
         }
 
         canvas {
             background-color: #2b2b2b;
             border: 4px solid #444;
             border-radius: 8px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             display: block;
             width: 100%;
             max-width: 400px;
             height: auto;
+            max-height: 60vh; /* Ensures canvas scales down nicely on very short screens */
             cursor: grab;
             z-index: 2;
         }
@@ -63,10 +65,10 @@
 
         #screen-overlay {
             position: absolute;
-            top: 44px;
+            top: 30px;
             left: 0;
             width: 100%;
-            height: calc(100% - 44px);
+            height: calc(100% - 30px);
             background: rgba(0, 0, 0, 0.85);
             display: flex;
             flex-direction: column;
@@ -94,10 +96,10 @@
 
         .difficulty-settings {
             display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 10px;
+            margin-bottom: 20px;
             background: rgba(255, 255, 255, 0.05);
-            padding: 10px 20px;
+            padding: 10px 15px;
             border-radius: 20px;
             border: 1px solid #444;
         }
@@ -107,7 +109,7 @@
             font-size: 14px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             color: #eee;
             transition: color 0.2s;
         }
@@ -124,7 +126,7 @@
         }
 
         button.play-btn {
-            padding: 12px 28px;
+            padding: 10px 24px;
             font-size: 18px;
             font-weight: bold;
             background: #00ffcc;
@@ -146,18 +148,18 @@
         }
 
         .controls-hint {
-            margin-top: 25px;
+            margin-top: 20px;
             font-size: 12px;
             color: #777;
         }
 
         /* Swipe Zone below Canvas */
         #swipe-zone {
-            display: none; /* Hidden on desktop */
+            display: none; 
             width: 100%;
             max-width: 400px;
-            height: 80px;
-            margin-top: 5px;
+            height: 55px; /* Compact height */
+            margin-top: 8px; /* Tighter spacing */
             background: repeating-linear-gradient(
                 45deg,
                 rgba(255, 255, 255, 0.02),
@@ -170,7 +172,7 @@
             align-items: center;
             justify-content: center;
             color: #555;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
             letter-spacing: 2px;
             user-select: none;
@@ -185,14 +187,14 @@
             max-width: 400px;
             justify-content: space-between;
             padding: 0;
-            margin-top: 5px;
+            margin-top: 8px; /* Tighter spacing */
         }
 
         .dir-btn {
             flex: 1;
             margin: 0 5px;
-            padding: 15px 0;
-            font-size: 18px;
+            padding: 12px 0; /* Slightly thinner buttons */
+            font-size: 16px;
             background: rgba(0, 255, 204, 0.1);
             border: 2px solid #00ffcc;
             color: #00ffcc;
@@ -222,6 +224,9 @@
             #mobile-controls {
                 display: flex;
             }
+            .ui-panel {
+                font-size: 16px; /* Smaller UI text on phones */
+            }
         }
     </style>
 </head>
@@ -236,7 +241,7 @@
         <canvas id="gameCanvas" width="400" height="500"></canvas>
         
         <div id="swipe-zone">
-            <span>⟷ SWIPE ZONE ⟷</span>
+            <span>⟷ SWIPE ⟷</span>
         </div>
 
         <div id="screen-overlay">
@@ -319,15 +324,13 @@
         document.addEventListener('keydown', (e) => { if (e.key in keys) keys[e.key] = true; });
         document.addEventListener('keyup', (e) => { if (e.key in keys) keys[e.key] = false; });
 
-        // Unified Swiping Function for both Canvas and Swipe Zone
+        // Unified Swiping Function
         function handleSwipeTracker(e) {
             if (!gameActive) return;
             e.preventDefault(); 
             isSwiping = true;
             
             const touch = e.touches[0];
-            
-            // Map the touch relative to the CANVAS width, even if swiping in the box below
             const canvasRect = canvas.getBoundingClientRect(); 
             const scaleX = canvas.width / canvasRect.width; 
             const touchX = (touch.clientX - canvasRect.left) * scaleX;
@@ -347,7 +350,7 @@
         canvas.addEventListener('touchmove', handleSwipeTracker, { passive: false });
         canvas.addEventListener('touchend', handleSwipeEnd);
 
-        // Attach to new Swipe Zone
+        // Attach to Swipe Zone
         swipeZone.addEventListener('touchstart', handleSwipeTracker, { passive: false });
         swipeZone.addEventListener('touchmove', handleSwipeTracker, { passive: false });
         swipeZone.addEventListener('touchend', handleSwipeEnd);

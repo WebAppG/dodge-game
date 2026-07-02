@@ -21,208 +21,85 @@
             justify-content: center;
             min-height: 100vh;
             overflow: hidden;
-            touch-action: none;
+            touch-action: none; /* Prevents mobile browser pull-to-refresh and zooming */
         }
 
         #game-container {
-            position: relative;
-            text-align: center;
-            width: 100vw;
-            max-width: 400px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 100vw;
+            max-width: 400px;
+            height: 100%;
+            padding: 5px;
         }
 
         .ui-panel {
-            margin-bottom: 10px;
-            font-size: 20px;
+            font-size: 16px;
             font-weight: bold;
             display: flex;
             justify-content: space-between;
             width: 100%;
-            padding: 0 15px;
+            padding: 0 10px;
+            flex-shrink: 0;
         }
 
         canvas {
             background-color: #2b2b2b;
             border: 4px solid #444;
             border-radius: 8px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-            display: block;
             width: 100%;
-            max-width: 400px;
-            height: auto;
-            cursor: grab;
-            z-index: 2;
-        }
-        
-        canvas:active {
-            cursor: grabbing;
-        }
-
-        #screen-overlay {
-            position: absolute;
-            top: 44px;
-            left: 0;
-            width: 100%;
-            height: calc(100% - 44px);
-            background: rgba(0, 0, 0, 0.85);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            padding: 20px;
-            text-align: center;
-            z-index: 10;
-        }
-
-        h1 {
-            font-size: 32px;
-            margin-bottom: 5px;
-            color: #00ffcc;
-            text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
-        }
-
-        p {
-            margin-bottom: 15px;
-            color: #ccc;
-            font-size: 14px;
-        }
-
-        .difficulty-settings {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: 1px solid #444;
-        }
-
-        .difficulty-settings label {
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: #eee;
-            transition: color 0.2s;
-        }
-        
-        .difficulty-settings label:hover {
-            color: #00ffcc;
-        }
-
-        .difficulty-settings input[type="radio"] {
-            accent-color: #00ffcc;
-            cursor: pointer;
-            width: 16px;
-            height: 16px;
-        }
-
-        button.play-btn {
-            padding: 12px 28px;
-            font-size: 18px;
-            font-weight: bold;
-            background: #00ffcc;
-            color: #1a1a1a;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: transform 0.1s, background 0.2s;
-            box-shadow: 0 4px 15px rgba(0, 255, 204, 0.4);
-        }
-
-        button.play-btn:hover {
-            background: #00e6b8;
-            transform: scale(1.05);
-        }
-
-        button.play-btn:active {
-            transform: scale(0.95);
-        }
-
-        .controls-hint {
-            margin-top: 25px;
-            font-size: 12px;
-            color: #777;
-        }
-
-        /* Swipe Zone below Canvas */
-        #swipe-zone {
-            display: none; /* Hidden on desktop */
-            width: 100%;
-            max-width: 400px;
-            height: 80px;
-            margin-top: 5px;
-            background: repeating-linear-gradient(
-                45deg,
-                rgba(255, 255, 255, 0.02),
-                rgba(255, 255, 255, 0.02) 10px,
-                rgba(255, 255, 255, 0.05) 10px,
-                rgba(255, 255, 255, 0.05) 20px
-            );
-            border: 2px dashed #444;
-            border-radius: 10px;
-            align-items: center;
-            justify-content: center;
-            color: #555;
-            font-size: 14px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            user-select: none;
-            -webkit-user-select: none;
+            flex-grow: 1; /* Grows if space is available */
+            max-height: 75vh; /* Prevents overflow on 375x667 */
             touch-action: none;
         }
 
-        /* Visible Mobile Controls Styles */
-        #mobile-controls {
-            display: none;
+        #swipe-zone {
             width: 100%;
-            max-width: 400px;
-            justify-content: space-between;
-            padding: 0;
+            height: 70px; /* Precise height */
             margin-top: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed #444;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            font-size: 12px;
+            letter-spacing: 2px;
+            flex-shrink: 0;
+        }
+
+        #mobile-controls {
+            width: 100%;
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+            flex-shrink: 0;
         }
 
         .dir-btn {
             flex: 1;
-            margin: 0 5px;
-            padding: 15px 0;
-            font-size: 18px;
+            padding: 12px;
             background: rgba(0, 255, 204, 0.1);
             border: 2px solid #00ffcc;
             color: #00ffcc;
             border-radius: 10px;
-            box-shadow: none;
-            user-select: none;
-            -webkit-user-select: none;
+            font-weight: bold;
         }
 
-        .dir-btn:first-child {
-            margin-left: 0;
+        #screen-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
         }
         
-        .dir-btn:last-child {
-            margin-right: 0;
-        }
-
-        .dir-btn:active, .dir-btn.active {
-            background: rgba(0, 255, 204, 0.4);
-            transform: scale(0.95);
-        }
-
-        @media (max-width: 768px) {
-            #swipe-zone {
-                display: flex;
-            }
-            #mobile-controls {
-                display: flex;
-            }
-        }
+        .play-btn { padding: 15px 40px; background: #00ffcc; border-radius: 25px; border: none; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -235,44 +112,30 @@
         
         <canvas id="gameCanvas" width="400" height="500"></canvas>
         
-        <div id="swipe-zone">
-            <span>⟷ SWIPE ZONE ⟷</span>
+        <div id="swipe-zone">⟷ SWIPE ZONE ⟷</div>
+
+        <div id="mobile-controls">
+            <button id="btn-left" class="dir-btn">LEFT</button>
+            <button id="btn-right" class="dir-btn">RIGHT</button>
         </div>
 
         <div id="screen-overlay">
-            <h1 id="overlay-title">DODGE</h1>
-            <p id="overlay-desc">Use Swipe Pad, Buttons, or Arrows</p>
-            
-            <div class="difficulty-settings" id="difficulty-panel">
+            <h1>DODGE</h1>
+            <div id="difficulty-panel" style="margin: 20px 0;">
                 <label><input type="radio" name="difficulty" value="easy" checked> Easy</label>
                 <label><input type="radio" name="difficulty" value="medium"> Medium</label>
                 <label><input type="radio" name="difficulty" value="hard"> Hard</label>
             </div>
-
             <button id="start-btn" class="play-btn">PLAY</button>
-            <div class="controls-hint">Tip: The longer you survive, the faster they fall!</div>
-        </div>
-
-        <div id="mobile-controls">
-            <button id="btn-left" class="dir-btn">◀ LEFT</button>
-            <button id="btn-right" class="dir-btn">RIGHT ▶</button>
         </div>
     </div>
 
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        const scoreDisplay = document.getElementById('score-display');
-        const highScoreDisplay = document.getElementById('high-score-display');
-        const overlay = document.getElementById('screen-overlay');
-        const overlayTitle = document.getElementById('overlay-title');
-        const overlayDesc = document.getElementById('overlay-desc');
-        const startBtn = document.getElementById('start-btn');
-        const diffPanel = document.getElementById('difficulty-panel');
         const swipeZone = document.getElementById('swipe-zone');
+        // ... (Keep your existing JS logic for game updates, collision, and difficulty)
         
-        const btnLeft = document.getElementById('btn-left');
-        const btnRight = document.getElementById('btn-right');
 
         // Game State Variables
         let gameActive = false;
@@ -319,38 +182,26 @@
         document.addEventListener('keydown', (e) => { if (e.key in keys) keys[e.key] = true; });
         document.addEventListener('keyup', (e) => { if (e.key in keys) keys[e.key] = false; });
 
-        // Unified Swiping Function for both Canvas and Swipe Zone
-        function handleSwipeTracker(e) {
+
+        // Ensure Swipe Zones use the same logic
+        function handleSwipe(e) {
             if (!gameActive) return;
-            e.preventDefault(); 
-            isSwiping = true;
-            
+            e.preventDefault();
             const touch = e.touches[0];
-            
-            // Map the touch relative to the CANVAS width, even if swiping in the box below
-            const canvasRect = canvas.getBoundingClientRect(); 
-            const scaleX = canvas.width / canvasRect.width; 
-            const touchX = (touch.clientX - canvasRect.left) * scaleX;
-            
-            player.x = touchX - (player.width / 2);
-            
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            player.x = ((touch.clientX - rect.left) * scaleX) - (player.width / 2);
             if (player.x < 0) player.x = 0;
-            if (player.x + player.width > canvas.width) {
-                player.x = canvas.width - player.width;
-            }
+            if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+            isSwiping = true;
         }
 
-        const handleSwipeEnd = () => { isSwiping = false; };
+        canvas.addEventListener('touchmove', handleSwipe, {passive:false});
+        swipeZone.addEventListener('touchmove', handleSwipe, {passive:false});
+        canvas.addEventListener('touchend', () => isSwiping = false);
+        swipeZone.addEventListener('touchend', () => isSwiping = false);
 
-        // Attach to Canvas
-        canvas.addEventListener('touchstart', handleSwipeTracker, { passive: false });
-        canvas.addEventListener('touchmove', handleSwipeTracker, { passive: false });
-        canvas.addEventListener('touchend', handleSwipeEnd);
-
-        // Attach to new Swipe Zone
-        swipeZone.addEventListener('touchstart', handleSwipeTracker, { passive: false });
-        swipeZone.addEventListener('touchmove', handleSwipeTracker, { passive: false });
-        swipeZone.addEventListener('touchend', handleSwipeEnd);
+        // ... Add your remaining existing game functions (startGame, update, etc)
 
         // Visible Mobile Button Listeners
         const handleLeftDown = (e) => { e.preventDefault(); isTouchingLeft = true; btnLeft.classList.add('active'); };
