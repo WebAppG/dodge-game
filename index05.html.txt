@@ -1,0 +1,19 @@
+
+
+prompt:
+
+please add swipe capability to the game so that a player using mobile phone browser can play more easily.
+
+------------------------------------
+
+
+response:
+
+Adding swipe and drag controls is a great idea—it makes mobile gameplay feel much more natural and fluid compared to tapping on-screen buttons!
+
+I have updated the game so that you can now swipe or drag your finger directly across the game area to move the player block. It perfectly tracks your finger's horizontal movement. (I also left the on-screen buttons at the bottom just in case some players still prefer them).
+
+Here is the complete, updated code. You can copy and paste this to replace your current file:
+
+
+
