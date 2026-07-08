@@ -1,0 +1,6 @@
+
+
+Using this version since AI prompts cannot successfully update the game layout.
+
+Adjusted spaces above and below "Swipe Zone".
+
